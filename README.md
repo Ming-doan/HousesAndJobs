@@ -21,6 +21,7 @@ Create Date: `1/12/2022`
 - `react`: Front-end main framework
 - `react-router-dom`: Web routing
 - `redux`: State management
+- `@reduxjs/toolkit`: Toolkit for Redux
 - `axios`: API manipulation library
 - `react-icons`: Icons library
 - `scss`: Supertype of CSS
@@ -32,3 +33,19 @@ Create Date: `1/12/2022`
 ### Database
 
 - `firebase`: Database and Authentication
+
+## How to run this project
+
+### Front-end
+
+**Step 1**: Change directory to hnj-fe
+
+```
+$ cd ./hnj-fe
+```
+
+**Step2**: Run npm start
+
+```
+$ npm start
+```
