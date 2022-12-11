@@ -1,0 +1,40 @@
+.checkbox {
+    display: inline-block;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    vertical-align: middle;
+    margin-right: 8px;
+    &:hover {
+        border-color: #40a9ff;
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 6px;
+        height: 11px;
+        border: solid #fff;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg) translate(-50%, -50%);
+        opacity: 0;
+        transition: all 0.3s;
+    }
+    &.checked {
+        border-color: #40a9ff;
+        background-color: #40a9ff;
+        &:after {
+        opacity: 1;
+        }
+    }
+    &.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
