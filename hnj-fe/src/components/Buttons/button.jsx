@@ -46,7 +46,7 @@ function Button({
                 }}
             >
                 {icon}
-                <Spacer space={10} />
+                {icon ? <Spacer space={10} /> : null}
                 {children}
             </div>
         </button>
