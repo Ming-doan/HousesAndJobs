@@ -1,10 +1,20 @@
 import style from './style.module.scss'
+import clsx from 'clsx'
+import { BiCheck } from 'react-icons/bi'
 
-function Checkbox({ isChecked }) {
+function Checkbox({ isChecked, onChange, disabled, ...rest }) {
     return (
-        <div className={style.checkbox}>
-            <input type="checkbox" checked={isChecked} />
-            <span className="checkbox__checkmark" />
+        <div
+            className={clsx(style.checkbox, {
+                [style.checked]: isChecked,
+                [style.disabled]: disabled,
+            })}
+            onClick={!disabled ? onChange : null}
+            {...rest}
+        >
+            {isChecked & !disabled ? (
+                <BiCheck className={style.checkmark} />
+            ) : null}
         </div>
     )
 }

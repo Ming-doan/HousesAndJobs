@@ -21,20 +21,22 @@ const variantsSetting = {
 
 function Button({
     icon,
-    message,
+    children,
     variant = 'default',
     auto,
     onClick,
+    disabled,
     ...rest
 }) {
     return (
         <button
-            className={style.container}
+            className={style.button}
             onClick={onClick}
             style={{
                 ...variantsSetting[variant],
                 width: auto ? 'fit-content' : 'var(--default-width)',
             }}
+            disabled={disabled}
             {...rest}
         >
             <div
@@ -45,7 +47,7 @@ function Button({
             >
                 {icon}
                 <Spacer space={10} />
-                {message}
+                {children}
             </div>
         </button>
     )

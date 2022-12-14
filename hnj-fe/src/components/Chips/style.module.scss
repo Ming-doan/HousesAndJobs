@@ -1,22 +1,23 @@
-.button {
+.chip {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 100%;
-    height: 46px;
+    width: fit-content;
+    height: 36px;
     padding: 0 20px;
+    font-size: var(--helper);
+    font-family: 'Open Sans', sans-serif;
+    color: var(--primary);
     border-radius: 10px;
-    border: none;
-    background-color: var(--primary);
+    border: 1px solid var(--primary);
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    user-select: none;
     &:hover {
-        background-color: var(--primary);
         opacity: .8;
     }
     &:active {
-        background-color: var(--primary);
         opacity: .9;
     }
     &:disabled {
@@ -27,15 +28,8 @@
             color: var(--gray500) !important;
         }
     }
-    & > .content {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        font-size: var(--helper);
-        font-family: 'Open Sans', sans-serif;
+    &.selected {
+        background-color: var(--primary);
         color: var(--gray100);
-        text-align: center;
     }
 }

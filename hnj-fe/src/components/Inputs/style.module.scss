@@ -17,7 +17,10 @@
     transition: .3s;
 
     &:focus-within {
-        border: 2px solid var(--primary);
+        box-shadow: 0 0 10px 0 var(--primary);
+        & > input {
+            color: var(--primary);
+        }
     }
 
     & > .prefix,
@@ -33,8 +36,13 @@
         outline: none;
         background: transparent;
         font-size: var(--helper);
+        font-family: 'Open Sans', sans-serif;
         color: var(--gray900);
         padding: 0 10px;
+
+        &::placeholder {
+            color: var(--gray500);
+        }
     }
 
 }
