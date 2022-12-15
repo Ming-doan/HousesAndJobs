@@ -1,62 +1,29 @@
 import style from './style.module.scss'
+import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { readDocuments } from '../../apis/readDocuments'
 import Button from '../../components/Buttons/button'
 import Spacer from '../../components/Utils/spacer'
 import Text from '../../components/Utils/text'
 import CardItem from '../../components/Cards/items/item'
+import Loading from '../../components/Utils/loading'
 
-const MOCK_DATA = [
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 1',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 2',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://cafeland.vn/image-data/720-480/static1.cafeland.vn/cafelandnew/hinh-anh/2021/06/04/144/image-20210604083343-1.png',
-        title: 'House 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-]
+const COLLECTION_PATH = 'Houses'
 
 function Houses() {
+    const navigate = useNavigate()
+    const [datas, setDatas] = useState(null)
+
+    function handleNavigateToDetail(id) {
+        navigate(`/houses/${id}`)
+    }
+
+    useEffect(() => {
+        readDocuments(COLLECTION_PATH).then((data) => {
+            setDatas(data)
+        })
+    }, [])
+
     return (
         <div className={style.content}>
             <div className={style.topActions}>
@@ -72,15 +39,20 @@ function Houses() {
                 </div>
             </div>
             <div className={style.cards}>
-                {MOCK_DATA.map((data, index) => (
-                    <CardItem
-                        key={index}
-                        imageUrl={data.imageUrl}
-                        title={data.title}
-                        descriptions={data.descriptions}
-                        location={data.location}
-                    />
-                ))}
+                {datas ? (
+                    datas.map((data, index) => (
+                        <CardItem
+                            key={index}
+                            imageUrl={data.images[0]}
+                            title={data.title}
+                            descriptions={data.descriptions.slice(0, 2)}
+                            location={data.location}
+                            onPress={() => handleNavigateToDetail(data.id)}
+                        />
+                    ))
+                ) : (
+                    <Loading />
+                )}
             </div>
         </div>
     )

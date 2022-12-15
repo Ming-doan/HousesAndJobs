@@ -69,19 +69,3 @@
         }
     }
 }
-
-.footer {
-    width: 100%;
-    padding: 40px 60px;
-    background-color: var(--gray900);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    & > .wrapper {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        max-width: var(--max-width);
-    }
-}

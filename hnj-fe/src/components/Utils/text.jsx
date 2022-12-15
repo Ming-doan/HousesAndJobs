@@ -12,7 +12,7 @@ function Text({ b, h1, h2, h3, h4, helper, children, color, ...rest }) {
                 [style.h4]: h4,
                 [style.helper]: helper,
             })}
-            style={{ color: `var(--${color})` }}
+            style={color ? { color: `var(--${color})` } : null}
             {...rest}
         >
             {children}

@@ -17,7 +17,7 @@ function Navbar({ isAuth }) {
             <div className={style.content}>
                 <div className={style.brand} onClick={handleNavigateToHome}>
                     <img src={Logo} alt="logo" />
-                    <span>House And Jobs</span>
+                    <span>Houses And Jobs</span>
                 </div>
                 <div className={style.actions}>
                     {!isAuth ? (

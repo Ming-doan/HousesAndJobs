@@ -5,7 +5,7 @@ import Navbar from '../../components/Navbar/navbar'
 import Input from '../../components/Inputs/input'
 import Button from '../../components/Buttons/button'
 import Spacer from '../../components/Utils/spacer'
-import Text from '../../components/Utils/text'
+import Footer from '../../components/Utils/footer'
 import { FiSearch } from 'react-icons/fi'
 
 const TABS = [
@@ -67,33 +67,7 @@ function HomeLayout({ isAuth }) {
                     <Outlet />
                 </div>
             </div>
-            <div className={style.footer}>
-                <div className={style.wrapper}>
-                    <Text color="gray100" h2>
-                        Houses And Jobs
-                    </Text>
-                    <Text color="gray100">Contributors</Text>
-                    <Text color="gray100" helper>
-                        - Trần Tiến Thành
-                    </Text>
-                    <Text color="gray100" helper>
-                        - Đoàn Quang Minh
-                    </Text>
-                    <Text color="gray100" helper>
-                        - Phan Gia Huy
-                    </Text>
-                    <Text color="gray100" helper>
-                        - Đinh Ngọc Hà
-                    </Text>
-                    <Text color="gray100" helper>
-                        - Nguyễn Vũ Gia Hân
-                    </Text>
-                    <Spacer space={20} />
-                    <Text color="gray100">
-                        Copyright 2022 - The Solution Team
-                    </Text>
-                </div>
-            </div>
+            <Footer />
         </div>
     )
 }
