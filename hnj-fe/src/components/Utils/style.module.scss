@@ -1,0 +1,38 @@
+.text  {
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--gray900);
+
+    &.b {
+        font-weight: 600;
+    }
+
+    &.h1 {
+        font-size: 36px;
+        color: var(--gray900);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    &.h2 {
+        font-size: 30px;
+        color: var(--gray900);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    &.h3 {
+        font-size: 24px;
+        color: var(--gray900);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    &.h4 {
+        font-size: 20px;
+        color: var(--gray900);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    &.helper {
+        font-size: 16px;
+        color: var(--gray500);
+    }
+}

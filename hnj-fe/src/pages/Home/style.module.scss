@@ -1,0 +1,87 @@
+.searchBox {
+    width: 100%;
+    height: 180px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    & > .decoration {
+        position: absolute;
+        inset: 0 0 auto 0;
+        width: 100%;
+        height: 50%;
+        background-color: var(--gray200);
+        z-index: -1;
+    }
+}
+
+.searchBar {
+    width: 500px;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 60px;
+    margin-bottom: 60px;
+
+    & > .wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: var(--max-width);
+
+        & > .tabbar {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+        }
+
+        & > .content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            & > .topActions {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+
+                & > .right {
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            & > .cards {
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-gap: 20px;
+            }
+        }
+    }
+}
+
+.footer {
+    width: 100%;
+    padding: 40px 60px;
+    background-color: var(--gray900);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & > .wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        max-width: var(--max-width);
+    }
+}

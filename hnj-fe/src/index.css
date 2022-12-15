@@ -4,13 +4,9 @@
   box-sizing: border-box;
 }
 
-html {
-  font-size: 10px;
-  font-family: 'Poppins', sans-serif;
-}
-
 :root {
   --default-width: 400px;
+  --max-width: 1400px;
 
   /* Brand colors */
   --primary: #9F86C0;
@@ -29,4 +25,14 @@ html {
   /* Font weight */
   --regular: 400;
   --semibold: 600;
+}
+
+html {
+  font-size: 10px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+  background-color: var(--gray100);
+  overflow-x: hidden;
 }
