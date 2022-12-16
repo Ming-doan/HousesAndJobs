@@ -24,6 +24,7 @@ function Button({
     children,
     variant = 'default',
     auto,
+    expanded,
     onClick,
     disabled,
     ...rest
@@ -34,7 +35,11 @@ function Button({
             onClick={onClick}
             style={{
                 ...variantsSetting[variant],
-                width: auto ? 'fit-content' : 'var(--default-width)',
+                width: auto
+                    ? 'fit-content'
+                    : expanded
+                    ? '100%'
+                    : 'var(--default-width)',
             }}
             disabled={disabled}
             {...rest}

@@ -68,9 +68,31 @@
                 }
             }
 
+            & > .owner {
+                display: flex;
+                align-items: center;
+
+                & > .avatar {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    overflow: hidden;
+
+                    & > img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+
+                & > .info {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
+
             & > .tabbar {
                 width: 100%;
-                margin-bottom: 20px;
+                margin-bottom: 40px;
                 display: flex;
             }
 
@@ -82,6 +104,22 @@
 
         & > .right {
             flex: 3;
+
+            & > .options {
+                display: flex;
+                flex-direction: column;
+
+                & > .option {
+                    display: flex;
+                    align-items: center;
+
+                    & > .info {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+            }
         }
     }
 }

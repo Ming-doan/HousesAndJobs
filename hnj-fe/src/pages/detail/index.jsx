@@ -6,11 +6,14 @@ import Navbar from '../../components/Navbar/navbar'
 import Footer from '../../components/Utils/footer'
 import Spacer from '../../components/Utils/spacer'
 import Button from '../../components/Buttons/button'
+import Ratio from '../../components/Ratio/ratio'
 import Text from '../../components/Utils/text'
 import Loading from '../../components/Utils/loading'
+import Expanded from '../../components/Utils/expanded'
 import { CiLocationOn } from 'react-icons/ci'
+import { AiOutlineMessage } from 'react-icons/ai'
+import { collectionPath } from '../../utils/Constants'
 
-const COLLECTION_PATH = 'Houses'
 const TABS = [
     {
         name: 'descriptions',
@@ -27,16 +30,44 @@ function DetailPage() {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState(null)
     const [tabs, setTab] = useState(TABS[0])
+    const [houseOption, setHouseOption] = useState(0)
+
+    function priceFormat(price) {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    }
 
     function handleSetTab(tab) {
         setTab(tab)
     }
 
-    useEffect(() => {
-        readDocument(COLLECTION_PATH, id).then((data) => {
-            setIsLoading(false)
-            setData(data)
+    function handleSetHouseOption(index) {
+        setHouseOption(index)
+    }
+
+    console.log(data)
+
+    async function getData() {
+        const houses = await readDocument(collectionPath.houses, id)
+        const owner = await readDocument(collectionPath.users, houses.owner)
+        let options = []
+        for (let i = 0; i < houses.options.length; i++) {
+            const option = await readDocument(
+                collectionPath.options,
+                houses.options[i]
+            )
+            options.push(option)
+        }
+        setData({
+            houses: houses,
+            owner: owner,
+            options: options,
         })
+        setIsLoading(false)
+        console.log('Fetching')
+    }
+
+    useEffect(() => {
+        getData()
     }, [])
 
     if (isLoading) {
@@ -53,17 +84,37 @@ function DetailPage() {
                     <div className={style.left}>
                         <div className={style.hero}>
                             <div className={style.preview}>
-                                <img src={data.images[0]} alt="" />
+                                <img src={data.houses.images[0]} alt="" />
                             </div>
                             <div className={style.images}>
-                                {data.images.slice(1, 5).map((image, index) => (
-                                    <div className={style.image} key={index}>
-                                        <img src={image} alt="" />
-                                    </div>
-                                ))}
+                                {data.houses.images
+                                    .slice(1, 5)
+                                    .map((image, index) => (
+                                        <div
+                                            className={style.image}
+                                            key={index}
+                                        >
+                                            <img src={image} alt="" />
+                                        </div>
+                                    ))}
                             </div>
                         </div>
                         <Spacer space={40} />
+                        <div className={style.owner}>
+                            <div className={style.avatar}>
+                                <img src={data.owner.avatar} alt="" />
+                            </div>
+                            <Spacer space={10} />
+                            <div className={style.info}>
+                                <Text b>{data.owner.name}</Text>
+                                <Text helper>{data.owner.email}</Text>
+                            </div>
+                            <Expanded />
+                            <Button variant="flat" auto>
+                                <AiOutlineMessage />
+                            </Button>
+                        </div>
+                        <Spacer space={60} />
                         <div className={style.tabbar}>
                             {TABS.map((tab, index) => {
                                 return (
@@ -87,22 +138,62 @@ function DetailPage() {
                         </div>
                         <div className={style.tabcontent}>
                             {tabs.name === 'descriptions' &&
-                                data.descriptions.map((description, index) => (
-                                    <Fragment key={index}>
-                                        <Text>{description}</Text>
-                                        <Spacer space={20} />
-                                    </Fragment>
-                                ))}
+                                data.houses.descriptions.map(
+                                    (description, index) => (
+                                        <Fragment key={index}>
+                                            <Text>{description}</Text>
+                                            <Spacer space={20} />
+                                        </Fragment>
+                                    )
+                                )}
                         </div>
                     </div>
                     <Spacer space={40} />
                     <div className={style.right}>
                         <div className={style.title}>
-                            <Text h1>{data.title}</Text>
+                            <Text h1>{data.houses.title}</Text>
                         </div>
                         <div className={style.location}>
                             <CiLocationOn />
-                            <Text>{data.location}</Text>
+                            <Text>{data.houses.location}</Text>
+                        </div>
+                        <Spacer space={40} />
+                        <div className={style.options}>
+                            {data.options.map((option, index) => (
+                                <Fragment key={index}>
+                                    <div className={style.option}>
+                                        <Ratio
+                                            isChecked={houseOption === index}
+                                            onChange={() =>
+                                                handleSetHouseOption(index)
+                                            }
+                                        />
+                                        <Spacer space={10} />
+                                        <div className={style.info}>
+                                            <Text>{option.title}</Text>
+                                            <Text helper>
+                                                {option.descriptions[0]}
+                                            </Text>
+                                        </div>
+                                        <Spacer space={10} />
+                                        <div className={style.price}>
+                                            <Text h4>
+                                                {priceFormat(option.price)}
+                                            </Text>
+                                            <Text helper>{option.unit}</Text>
+                                        </div>
+                                    </div>
+                                    <Spacer space={20} />
+                                </Fragment>
+                            ))}
+                            <Spacer space={40} />
+                            <div className={style.actions}>
+                                <Button expanded variant="flat">
+                                    Find roommate
+                                </Button>
+                                <Spacer space={10} />
+                                <Button expanded>Booking</Button>
+                            </div>
                         </div>
                     </div>
                 </div>

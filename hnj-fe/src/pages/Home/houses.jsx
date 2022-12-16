@@ -38,9 +38,9 @@ function Houses() {
                     <Button auto>Find roommate</Button>
                 </div>
             </div>
-            <div className={style.cards}>
-                {datas ? (
-                    datas.map((data, index) => (
+            {datas ? (
+                <div className={style.cards}>
+                    {datas.map((data, index) => (
                         <CardItem
                             key={index}
                             imageUrl={data.images[0]}
@@ -49,11 +49,11 @@ function Houses() {
                             location={data.location}
                             onPress={() => handleNavigateToDetail(data.id)}
                         />
-                    ))
-                ) : (
-                    <Loading />
-                )}
-            </div>
+                    ))}
+                </div>
+            ) : (
+                <Loading />
+            )}
         </div>
     )
 }
