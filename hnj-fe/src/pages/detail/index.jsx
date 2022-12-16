@@ -10,6 +10,7 @@ import Ratio from '../../components/Ratio/ratio'
 import Text from '../../components/Utils/text'
 import Loading from '../../components/Utils/loading'
 import Expanded from '../../components/Utils/expanded'
+import ChatPopUp from '../chatPopup'
 import { CiLocationOn } from 'react-icons/ci'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { collectionPath } from '../../utils/Constants'
@@ -199,6 +200,7 @@ function DetailPage() {
                 </div>
             </div>
             <Footer />
+            <ChatPopUp />
         </div>
     )
 }
