@@ -4,9 +4,11 @@ import LoginPage from './pages/login'
 import HomeLayout from './pages/Home'
 import Houses from './pages/Home/houses'
 import Jobs from './pages/Home/jobs'
-import DetailPage from './pages/detail'
+import HomeDetailPage from './pages/detail/homeDetail'
+import JobDetailPage from './pages/detail/jobDetail'
 import MapPage from './pages/map'
 import BookingPage from './pages/booking'
+import RoommatePage from './pages/roommate'
 
 function App() {
     return (
@@ -19,9 +21,11 @@ function App() {
                         <Route path="/houses" element={<Houses />} />
                         <Route path="/jobs" element={<Jobs />} />
                     </Route>
-                    <Route path="/houses/:id" element={<DetailPage />} />
+                    <Route path="/houses/:id" element={<HomeDetailPage />} />
+                    <Route path="/jobs/:id" element={<JobDetailPage />} />
                     <Route path="/map" element={<MapPage />} />
                     <Route path="/booking" element={<BookingPage />} />
+                    <Route path="/roommate" element={<RoommatePage />} />
                 </Routes>
             </BrowserRouter>
         </div>

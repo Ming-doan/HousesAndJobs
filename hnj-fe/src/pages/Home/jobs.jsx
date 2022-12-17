@@ -1,61 +1,37 @@
 import style from './style.module.scss'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setJobsCache } from '../../utils/appStorage'
+import { readDocuments } from '../../apis/readDocuments'
 import Button from '../../components/Buttons/button'
 import Text from '../../components/Utils/text'
 import CardItem from '../../components/Cards/items/item'
-
-const MOCK_DATA = [
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 1',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 2',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-    {
-        imageUrl:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb_Aj78Ape4qECaMSoPj2qfqD32pO5-y4rCQ&usqp=CAU',
-        title: 'Job 3',
-        descriptions: ['Chủ nhà trọ: Nguyễn Văn A', 'Giá: 2.000.000đ'],
-        location: 'Jakarta',
-    },
-]
+import Loading from '../../components/Utils/loading'
+import { collectionPath } from '../../utils/Constants'
+import HomeFilter from '../filters/homeFilter'
 
 function Jobs() {
+    const navigate = useNavigate()
+    const [isOpenFilter, setIsOpenFilter] = useState(false)
+    const jobsData = useSelector((state) => state.storage.jobsCache)
+    const dispatch = useDispatch()
+
+    function handleNavigateToDetail(id) {
+        navigate(`/jobs/${id}`)
+    }
+
+    function handleGetData() {
+        console.log('Get Data')
+        readDocuments(collectionPath.jobs).then((data) => {
+            dispatch(setJobsCache(data))
+        })
+    }
+
+    if (!jobsData) {
+        handleGetData()
+    }
+
     return (
         <div className={style.content}>
             <div className={style.topActions}>
@@ -63,22 +39,34 @@ function Jobs() {
                     <Text h3>Recommend for you</Text>
                 </div>
                 <div className={style.right}>
-                    <Button auto variant="flat">
+                    <Button
+                        auto
+                        variant="flat"
+                        onClick={() => setIsOpenFilter(true)}
+                    >
                         Filter
                     </Button>
                 </div>
             </div>
-            <div className={style.cards}>
-                {MOCK_DATA.map((data, index) => (
-                    <CardItem
-                        key={index}
-                        imageUrl={data.imageUrl}
-                        title={data.title}
-                        descriptions={data.descriptions}
-                        location={data.location}
-                    />
-                ))}
-            </div>
+            {jobsData ? (
+                <div className={style.cards}>
+                    {jobsData.map((data, index) => (
+                        <CardItem
+                            key={index}
+                            imageUrl={data.images[0]}
+                            title={data.title}
+                            descriptions={data.descriptions.slice(0, 2)}
+                            location={data.location}
+                            onPress={() => handleNavigateToDetail(data.id)}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <Loading />
+            )}
+            {isOpenFilter ? (
+                <HomeFilter onClose={() => setIsOpenFilter(false)} />
+            ) : null}
         </div>
     )
 }

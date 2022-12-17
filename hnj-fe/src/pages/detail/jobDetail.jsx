@@ -7,6 +7,7 @@ import { readDocument } from '../../apis/readDocuments'
 import { writeDocument } from '../../apis/writeDocument'
 import { updateDocument } from '../../apis/updateDocument'
 import { queryDocuments } from '../../apis/queryDocuments'
+import { getUserAvatar, getPreviewImage } from '../../utils/utils'
 import Navbar from '../../components/Navbar/navbar'
 import Footer from '../../components/Utils/footer'
 import Spacer from '../../components/Utils/spacer'
@@ -23,12 +24,13 @@ import { detailPageTabs } from './constants'
 import ReactStars from 'react-rating-stars-component'
 import Link from '../../components/Buttons/link'
 import ImageModal from '../modal/imageModal'
+import { timeFormat } from '../../utils/utils'
 
-function DetailPage() {
+function JobDetailPage() {
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [tabs, setTab] = useState(detailPageTabs[0])
-    const [houseOption, setHouseOption] = useState(0)
+    const [jobOption, setJobOption] = useState(0)
     const [comments, setComments] = useState(null)
     const [ratingComment, setRatingComment] = useState({ star: 0, comment: '' })
     const [isOpenImageModal, setIsOpenImageModal] = useState(false)
@@ -65,8 +67,8 @@ function DetailPage() {
         }
     }
 
-    function handleSetHouseOption(index) {
-        setHouseOption(index)
+    function handleSetJobOption(index) {
+        setJobOption(index)
     }
 
     function handleOpenChat() {
@@ -92,19 +94,22 @@ function DetailPage() {
     }
 
     async function getData() {
-        const houses = await readDocument(collectionPath.houses, id)
-        const owner = await readDocument(collectionPath.users, houses.owner)
+        const jobs = await readDocument(collectionPath.jobs, id)
+        const owner = await readDocument(collectionPath.users, jobs.owner)
         let options = []
-        for (let i = 0; i < houses.options.length; i++) {
+        for (let i = 0; i < jobs.options.length; i++) {
             const option = await readDocument(
-                collectionPath.options,
-                houses.options[i]
+                collectionPath.jobOptions,
+                jobs.options[i]
             )
-            options.push(option)
+            options.push({
+                ...option,
+                validUntil: timeFormat(option.validUntil),
+            })
         }
         dispatch(
             setData({
-                houses: houses,
+                jobs: jobs,
                 owner: owner,
                 options: options,
             })
@@ -116,10 +121,10 @@ function DetailPage() {
     async function getComments() {
         console.log('Fetching comments')
         let commentsDoc = []
-        for (let i = 0; i < data.houses.comments.length; i++) {
+        for (let i = 0; i < data.jobs.comments.length; i++) {
             const comment = await readDocument(
                 collectionPath.comments,
-                data.houses.comments[i]
+                data.jobs.comments[i]
             )
             const commentUser = await readDocument(
                 collectionPath.users,
@@ -146,8 +151,8 @@ function DetailPage() {
         }
         const commentId = await writeDocument(collectionPath.comments, comment)
 
-        await updateDocument(collectionPath.houses, data.houses.id, {
-            comments: [commentId, ...data.houses.comments],
+        await updateDocument(collectionPath.jobs, data.jobs.id, {
+            comments: [commentId, ...data.jobs.comments],
         })
         setRatingComment({ star: 0, comment: '' })
         const commentData = {
@@ -161,10 +166,18 @@ function DetailPage() {
         setComments([commentData, ...comments])
     }
 
+    function getSubImage() {
+        let subImages = []
+        for (let i = 1; i < 5; i++) {
+            subImages.push(getPreviewImage(data.jobs.images[i]))
+        }
+        return subImages
+    }
+
     function getTabContent() {
         switch (tabs.name) {
             case 'descriptions':
-                return data.houses.descriptions.map((description, index) => (
+                return data.jobs.descriptions.map((description, index) => (
                     <Fragment key={index}>
                         <Text>{description}</Text>
                         <Spacer space={20} />
@@ -234,7 +247,9 @@ function DetailPage() {
                                     <div className={style.user}>
                                         <div className={style.avatar}>
                                             <img
-                                                src={comment.user.avatar}
+                                                src={getUserAvatar(
+                                                    comment.user.avatar
+                                                )}
                                                 alt=""
                                             />
                                         </div>
@@ -270,8 +285,8 @@ function DetailPage() {
             getData()
         }
 
-        if (data) {
-            setIsLoading(false)
+        return () => {
+            dispatch(setData(null))
         }
     }, [])
 
@@ -292,28 +307,34 @@ function DetailPage() {
                                 className={style.preview}
                                 onClick={() => handleOpenImageModal()}
                             >
-                                <img src={data.houses.images[0]} alt="" />
+                                <img
+                                    src={getPreviewImage(data.jobs.images[0])}
+                                    alt=""
+                                />
                             </div>
                             <div className={style.images}>
-                                {data.houses.images
-                                    .slice(1, 5)
-                                    .map((image, index) => (
-                                        <div
-                                            className={style.image}
-                                            key={index}
-                                            onClick={() =>
-                                                handleOpenImageModal()
-                                            }
-                                        >
-                                            <img src={image} alt="" />
-                                        </div>
-                                    ))}
+                                {getSubImage().map((image, index) => (
+                                    <div
+                                        className={style.image}
+                                        key={index}
+                                        onClick={() => handleOpenImageModal()}
+                                    >
+                                        <img
+                                            src={getPreviewImage(image)}
+                                            alt=""
+                                        />
+                                    </div>
+                                ))}
+                                {}
                             </div>
                         </div>
                         <Spacer space={40} />
                         <div className={style.owner}>
                             <div className={style.avatar}>
-                                <img src={data.owner.avatar} alt="" />
+                                <img
+                                    src={getUserAvatar(data.owner.avatar)}
+                                    alt=""
+                                />
                             </div>
                             <Spacer space={10} />
                             <div className={style.info}>
@@ -322,7 +343,7 @@ function DetailPage() {
                             </div>
                             <Expanded />
                             {user ? (
-                                user.id === data.houses.owner ? (
+                                user.id === data.jobs.owner ? (
                                     <Button auto>Booked List</Button>
                                 ) : (
                                     <Button
@@ -369,11 +390,11 @@ function DetailPage() {
                     <Spacer space={40} />
                     <div className={style.right}>
                         <div className={style.title}>
-                            <Text h1>{data.houses.title}</Text>
+                            <Text h1>{data.jobs.title}</Text>
                         </div>
                         <div className={style.location}>
                             <CiLocationOn />
-                            <Text>{data.houses.location}</Text>
+                            <Text>{data.jobs.location}</Text>
                         </div>
                         <Spacer space={40} />
                         <div className={style.options}>
@@ -381,9 +402,9 @@ function DetailPage() {
                                 <Fragment key={index}>
                                     <div className={style.option}>
                                         <Ratio
-                                            isChecked={houseOption === index}
+                                            isChecked={jobOption === index}
                                             onChange={() =>
-                                                handleSetHouseOption(index)
+                                                handleSetJobOption(index)
                                             }
                                         />
                                         <Spacer space={10} />
@@ -391,6 +412,9 @@ function DetailPage() {
                                             <Text>{option.title}</Text>
                                             <Text helper>
                                                 {option.descriptions[0]}
+                                            </Text>
+                                            <Text helper color={'success'}>
+                                                Valid Until {option.validUntil}
                                             </Text>
                                         </div>
                                         <Spacer space={10} />
@@ -406,15 +430,11 @@ function DetailPage() {
                             ))}
                             <Spacer space={40} />
                             <div className={style.actions}>
-                                <Button expanded variant="flat">
-                                    Find roommate
-                                </Button>
-                                <Spacer space={10} />
                                 <Button
                                     expanded
                                     onClick={() => handleNavigateToBooking()}
                                 >
-                                    Booking
+                                    Apply
                                 </Button>
                             </div>
                         </div>
@@ -425,7 +445,7 @@ function DetailPage() {
             {isOpenChat ? <ChatPopUp /> : null}
             {isOpenImageModal ? (
                 <ImageModal
-                    images={data.houses.images}
+                    images={data.jobs.images}
                     onClose={() => handleCloseImageModal()}
                 />
             ) : null}
@@ -433,4 +453,4 @@ function DetailPage() {
     )
 }
 
-export default DetailPage
+export default JobDetailPage

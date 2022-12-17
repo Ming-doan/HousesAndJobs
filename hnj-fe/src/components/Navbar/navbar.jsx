@@ -13,6 +13,7 @@ import {
     setHousesCache,
     setJobsCache,
 } from '../../utils/appStorage'
+import { getUserAvatar } from '../../utils/utils'
 import Button from '../Buttons/button'
 import Spacer from '../Utils/spacer'
 import { HiOutlineLogout } from 'react-icons/hi'
@@ -52,7 +53,10 @@ function Navbar() {
                 return (
                     <Fragment>
                         <div className={style.avatar}>
-                            <img src={currentUser.avatar} alt="" />
+                            <img
+                                src={getUserAvatar(currentUser.avatar)}
+                                alt=""
+                            />
                         </div>
                         <Spacer space={10} />
                         <Button auto variant="flat" onClick={handleLogout}>

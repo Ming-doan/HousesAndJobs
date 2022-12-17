@@ -1,8 +1,11 @@
 export const collectionPath = {
     houses: 'Houses',
+    jobs: 'Jobs',
     users: 'Users',
-    options: 'HouseOptions',
+    houseOptions: 'HouseOptions',
+    jobOptions: 'JobOptions',
     messages: 'Messages',
     message: 'Message',
     comments: 'Comments',
+    sharedHouse: 'SharedHouse',
 }

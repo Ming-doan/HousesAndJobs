@@ -11,6 +11,11 @@
   /* Brand colors */
   --primary: #9F86C0;
 
+  /* Status colors */
+  --success: #28A745;
+  --warning: #FFC107;
+  --danger: #DC3545;
+
   /* Gray scale */
   --gray100: #F8F9FA;
   --gray200: #E9ECEF;

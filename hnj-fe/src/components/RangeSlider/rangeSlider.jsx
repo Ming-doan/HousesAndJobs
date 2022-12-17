@@ -10,7 +10,7 @@ function RangeInput({ value, label, onChange }) {
     )
 }
 
-function RangeSlider({ min, max, value, onChange, label }) {
+function RangeSlider({ min, max, step, value, onChange, label }) {
     return (
         <div className={style.rangeSlider}>
             <input
@@ -18,6 +18,7 @@ function RangeSlider({ min, max, value, onChange, label }) {
                 className={style.slider}
                 min={min}
                 max={max}
+                step={step}
                 value={value}
                 onChange={onChange}
             />

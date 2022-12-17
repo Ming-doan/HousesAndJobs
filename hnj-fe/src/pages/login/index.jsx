@@ -3,7 +3,7 @@ import logo from '../../assets/Logo.png'
 import loginImage from '../../assets/login_image.png'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../../apis/authentication'
+import { login, loginWithGoogle } from '../../apis/authentication'
 import Text from '../../components/Utils/text'
 import Input from '../../components/Inputs/input'
 import Button from '../../components/Buttons/button'
@@ -20,6 +20,11 @@ function LoginPage() {
 
     async function handleLogin() {
         await login(email, password)
+        navigate('/houses')
+    }
+
+    async function handleLoginWithGoogle() {
+        await loginWithGoogle()
         navigate('/houses')
     }
 
@@ -69,7 +74,10 @@ function LoginPage() {
                     <Spacer space={60} />
                     <Button onClick={() => handleLogin()}>Sign in</Button>
                     <Spacer space={20} />
-                    <Button variant="outline">
+                    <Button
+                        variant="outline"
+                        onClick={() => handleLoginWithGoogle()}
+                    >
                         <FcGoogle />
                         <Spacer space={5} />
                         Sign in with Google

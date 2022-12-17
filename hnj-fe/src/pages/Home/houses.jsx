@@ -1,6 +1,6 @@
 import style from './style.module.scss'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setHousesCache } from '../../utils/appStorage'
 import { readDocuments } from '../../apis/readDocuments'
@@ -10,17 +10,24 @@ import Text from '../../components/Utils/text'
 import CardItem from '../../components/Cards/items/item'
 import Loading from '../../components/Utils/loading'
 import { collectionPath } from '../../utils/Constants'
+import HomeFilter from '../filters/homeFilter'
 
 function Houses() {
     const navigate = useNavigate()
+    const [isOpenFilter, setIsOpenFilter] = useState(false)
     const housesData = useSelector((state) => state.storage.housesCache)
     const dispatch = useDispatch()
+
+    function handleNavigateToRoommate() {
+        navigate('/roommate')
+    }
 
     function handleNavigateToDetail(id) {
         navigate(`/houses/${id}`)
     }
 
     function handleGetData() {
+        console.log('Get Data')
         readDocuments(collectionPath.houses).then((data) => {
             dispatch(setHousesCache(data))
         })
@@ -37,11 +44,17 @@ function Houses() {
                     <Text h3>Recommend for you</Text>
                 </div>
                 <div className={style.right}>
-                    <Button auto variant="flat">
+                    <Button
+                        auto
+                        variant="flat"
+                        onClick={() => setIsOpenFilter(true)}
+                    >
                         Filter
                     </Button>
                     <Spacer space={10} />
-                    <Button auto>Find roommate</Button>
+                    <Button auto onClick={() => handleNavigateToRoommate()}>
+                        Find roommate
+                    </Button>
                 </div>
             </div>
             {housesData ? (
@@ -60,6 +73,9 @@ function Houses() {
             ) : (
                 <Loading />
             )}
+            {isOpenFilter ? (
+                <HomeFilter onClose={() => setIsOpenFilter(false)} />
+            ) : null}
         </div>
     )
 }
