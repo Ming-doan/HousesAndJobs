@@ -4,7 +4,7 @@ export const detailSlice = createSlice({
     name: 'detail',
     initialState: {
         data: null,
-        isOpen: false,
+        isOpenChat: false,
         messagesRoom: null,
         messages: [],
     },
@@ -12,8 +12,8 @@ export const detailSlice = createSlice({
         setData: (state, action) => {
             state.data = action.payload
         },
-        setIsOpen: (state, action) => {
-            state.isOpen = action.payload
+        setIsOpenChat: (state, action) => {
+            state.isOpenChat = action.payload
         },
         setMessagesRoom: (state, action) => {
             state.messagesRoom = action.payload
@@ -24,7 +24,7 @@ export const detailSlice = createSlice({
     },
 })
 
-export const { setData, setIsOpen, setMessagesRoom, setMessages } =
+export const { setData, setIsOpenChat, setMessagesRoom, setMessages } =
     detailSlice.actions
 
 export default detailSlice.reducer

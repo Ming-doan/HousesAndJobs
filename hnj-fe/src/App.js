@@ -5,6 +5,8 @@ import HomeLayout from './pages/Home'
 import Houses from './pages/Home/houses'
 import Jobs from './pages/Home/jobs'
 import DetailPage from './pages/detail'
+import MapPage from './pages/map'
+import BookingPage from './pages/booking'
 
 function App() {
     return (
@@ -18,6 +20,8 @@ function App() {
                         <Route path="/jobs" element={<Jobs />} />
                     </Route>
                     <Route path="/houses/:id" element={<DetailPage />} />
+                    <Route path="/map" element={<MapPage />} />
+                    <Route path="/booking" element={<BookingPage />} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -39,3 +39,14 @@
         text-align: center;
     }
 }
+
+.link {
+    font-size: var(--helper);
+    font-family: 'Open Sans', sans-serif;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--primary);
+    }
+}

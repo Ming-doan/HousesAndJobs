@@ -4,4 +4,5 @@ export const collectionPath = {
     options: 'HouseOptions',
     messages: 'Messages',
     message: 'Message',
+    comments: 'Comments',
 }

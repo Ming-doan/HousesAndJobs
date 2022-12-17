@@ -1,7 +1,7 @@
 import style from './style.module.scss'
 import { Fragment, useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setIsOpen, setMessagesRoom, setMessages } from '../detail/reducer'
+import { setIsOpenChat, setMessagesRoom, setMessages } from '../detail/reducer'
 import { readDocument } from '../../apis/readDocuments'
 import { writeDocument } from '../../apis/writeDocument'
 import { updateDocument } from '../../apis/updateDocument'
@@ -31,7 +31,7 @@ function ChatPopUp() {
     }
 
     function handleCloseChat() {
-        dispatch(setIsOpen(false))
+        dispatch(setIsOpenChat(false))
     }
 
     function timeFormat(time) {

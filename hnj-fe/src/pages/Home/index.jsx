@@ -28,6 +28,10 @@ function HomeLayout({ isAuth }) {
         navigate(`/${tab.name}`)
     }
 
+    function handleNavigateToMap() {
+        navigate('/map')
+    }
+
     return (
         <div>
             <Navbar isAuth={isAuth} />
@@ -37,7 +41,11 @@ function HomeLayout({ isAuth }) {
                     prefix={<FiSearch />}
                     className={style.searchBar}
                     placeholder="Search"
-                    suffix={<Button auto>Search on map</Button>}
+                    suffix={
+                        <Button auto onClick={() => handleNavigateToMap()}>
+                            Search on map
+                        </Button>
+                    }
                 />
                 <div className={style.decoration}></div>
             </div>
