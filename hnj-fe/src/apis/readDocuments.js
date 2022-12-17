@@ -1,5 +1,5 @@
 import { collection, doc, getDocs, getDoc } from 'firebase/firestore'
-import database from '../utils/FirebaseConfig'
+import { database } from '../utils/FirebaseConfig'
 
 async function readDocuments(collectionName) {
     const collectionPath = collection(database, collectionName)

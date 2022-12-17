@@ -1,28 +1,34 @@
 import style from './style.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setHousesCache } from '../../utils/appStorage'
 import { readDocuments } from '../../apis/readDocuments'
 import Button from '../../components/Buttons/button'
 import Spacer from '../../components/Utils/spacer'
 import Text from '../../components/Utils/text'
 import CardItem from '../../components/Cards/items/item'
 import Loading from '../../components/Utils/loading'
-
-const COLLECTION_PATH = 'Houses'
+import { collectionPath } from '../../utils/Constants'
 
 function Houses() {
     const navigate = useNavigate()
-    const [datas, setDatas] = useState(null)
+    const housesData = useSelector((state) => state.storage.housesCache)
+    const dispatch = useDispatch()
 
     function handleNavigateToDetail(id) {
         navigate(`/houses/${id}`)
     }
 
-    useEffect(() => {
-        readDocuments(COLLECTION_PATH).then((data) => {
-            setDatas(data)
+    function handleGetData() {
+        readDocuments(collectionPath.houses).then((data) => {
+            dispatch(setHousesCache(data))
         })
-    }, [])
+    }
+
+    if (!housesData) {
+        handleGetData()
+    }
 
     return (
         <div className={style.content}>
@@ -38,9 +44,9 @@ function Houses() {
                     <Button auto>Find roommate</Button>
                 </div>
             </div>
-            {datas ? (
+            {housesData ? (
                 <div className={style.cards}>
-                    {datas.map((data, index) => (
+                    {housesData.map((data, index) => (
                         <CardItem
                             key={index}
                             imageUrl={data.images[0]}

@@ -1,7 +1,10 @@
 import style from './style.module.scss'
 import { useParams } from 'react-router-dom'
 import { Fragment, useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { setData, setIsOpen, setMessagesRoom } from './reducer'
 import { readDocument } from '../../apis/readDocuments'
+import { queryDocuments } from '../../apis/queryDocuments'
 import Navbar from '../../components/Navbar/navbar'
 import Footer from '../../components/Utils/footer'
 import Spacer from '../../components/Utils/spacer'
@@ -14,24 +17,17 @@ import ChatPopUp from '../chatPopup'
 import { CiLocationOn } from 'react-icons/ci'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { collectionPath } from '../../utils/Constants'
-
-const TABS = [
-    {
-        name: 'descriptions',
-        label: 'Descriptions',
-    },
-    {
-        name: 'comments',
-        label: 'Comments',
-    },
-]
+import { detailPageTabs } from './constants'
 
 function DetailPage() {
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
-    const [data, setData] = useState(null)
-    const [tabs, setTab] = useState(TABS[0])
+    const [tabs, setTab] = useState(detailPageTabs[0])
     const [houseOption, setHouseOption] = useState(0)
+    const data = useSelector((state) => state.detail.data)
+    const user = useSelector((state) => state.storage.currentUser)
+    const isOpenChat = useSelector((state) => state.detail.isOpen)
+    const dispatch = useDispatch()
 
     function priceFormat(price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
@@ -45,7 +41,23 @@ function DetailPage() {
         setHouseOption(index)
     }
 
-    console.log(data)
+    function handleOpenChat() {
+        getMessagesRoom().then((room) => {
+            dispatch(setMessagesRoom(room))
+            dispatch(setIsOpen(true))
+        })
+    }
+
+    async function getMessagesRoom() {
+        const messageRoom = await queryDocuments(
+            collectionPath.messages,
+            'members',
+            'array-contains-any',
+            [user.id, data.owner.id],
+            1
+        )
+        return messageRoom[0]
+    }
 
     async function getData() {
         const houses = await readDocument(collectionPath.houses, id)
@@ -58,11 +70,13 @@ function DetailPage() {
             )
             options.push(option)
         }
-        setData({
-            houses: houses,
-            owner: owner,
-            options: options,
-        })
+        dispatch(
+            setData({
+                houses: houses,
+                owner: owner,
+                options: options,
+            })
+        )
         setIsLoading(false)
         console.log('Fetching')
     }
@@ -111,13 +125,17 @@ function DetailPage() {
                                 <Text helper>{data.owner.email}</Text>
                             </div>
                             <Expanded />
-                            <Button variant="flat" auto>
+                            <Button
+                                variant="flat"
+                                auto
+                                onClick={() => handleOpenChat()}
+                            >
                                 <AiOutlineMessage />
                             </Button>
                         </div>
                         <Spacer space={60} />
                         <div className={style.tabbar}>
-                            {TABS.map((tab, index) => {
+                            {detailPageTabs.map((tab, index) => {
                                 return (
                                     <Fragment key={index}>
                                         <Button
@@ -200,7 +218,7 @@ function DetailPage() {
                 </div>
             </div>
             <Footer />
-            <ChatPopUp />
+            {isOpenChat ? <ChatPopUp /> : null}
         </div>
     )
 }
