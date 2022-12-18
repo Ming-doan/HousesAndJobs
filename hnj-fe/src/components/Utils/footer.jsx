@@ -14,7 +14,7 @@ function Footer() {
                     - Trần Tiến Thành
                 </Text>
                 <Text color="gray100" helper>
-                    - Đoàn Quang Minh
+                    - Đoàn Quang Minh `quangminh57dng@gmail.com`
                 </Text>
                 <Text color="gray100" helper>
                     - Phan Gia Huy

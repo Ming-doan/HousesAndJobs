@@ -33,6 +33,10 @@ function Navbar() {
         clearCache()
     }
 
+    function handleNavigateToMap() {
+        navigate('/map')
+    }
+
     function handleNavigateToLogIn() {
         navigate('/login')
     }
@@ -52,6 +56,14 @@ function Navbar() {
             if (currentUser) {
                 return (
                     <Fragment>
+                        <Button
+                            auto
+                            variant="outline"
+                            onClick={() => handleNavigateToMap()}
+                        >
+                            Search on Map
+                        </Button>
+                        <Spacer space={40} />
                         <div className={style.avatar}>
                             <img
                                 src={getUserAvatar(currentUser.avatar)}
@@ -71,6 +83,14 @@ function Navbar() {
         } else {
             return (
                 <Fragment>
+                    <Button
+                        auto
+                        variant="outline"
+                        onClick={() => handleNavigateToMap()}
+                    >
+                        Search on Map
+                    </Button>
+                    <Spacer space={10} />
                     <Button auto onClick={() => handleNavigateToLogIn()}>
                         Sign in
                     </Button>

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const filterSlice = createSlice({
-    name: 'filter',
+const homeFilterSlice = createSlice({
+    name: 'homeFilter',
     initialState: {
         priceRange: 10,
         numberOfBed: 1,
@@ -39,6 +39,6 @@ export const {
     setCookingSection,
     setBalcony,
     setWashingMachine,
-} = filterSlice.actions
+} = homeFilterSlice.actions
 
-export default filterSlice.reducer
+export default homeFilterSlice.reducer

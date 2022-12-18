@@ -15,8 +15,13 @@ import HomeFilter from '../filters/homeFilter'
 function Houses() {
     const navigate = useNavigate()
     const [isOpenFilter, setIsOpenFilter] = useState(false)
-    const housesData = useSelector((state) => state.storage.housesCache)
+    let housesData = useSelector((state) => state.storage.housesCache)
+    let searchedHouses = useSelector((state) => state.storage.searchedHouses)
     const dispatch = useDispatch()
+
+    if (searchedHouses) {
+        housesData = searchedHouses
+    }
 
     function handleNavigateToRoommate() {
         navigate('/roommate')

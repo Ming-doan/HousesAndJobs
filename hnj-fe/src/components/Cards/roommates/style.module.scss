@@ -1,0 +1,42 @@
+.card {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: var(--gray100);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    & .user {
+        display: flex;
+        align-items: center;
+        
+        & .avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            & img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    & .info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+}

@@ -11,6 +11,12 @@
         flex-direction: column;
         width: 100%;
         max-width: var(--max-width);
+
+        & .list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            grid-gap: 40px;
+        }
     }
 
 }

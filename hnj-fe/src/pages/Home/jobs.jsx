@@ -9,13 +9,18 @@ import Text from '../../components/Utils/text'
 import CardItem from '../../components/Cards/items/item'
 import Loading from '../../components/Utils/loading'
 import { collectionPath } from '../../utils/Constants'
-import HomeFilter from '../filters/homeFilter'
+import JobFilter from '../filters/jobFilter'
 
 function Jobs() {
     const navigate = useNavigate()
     const [isOpenFilter, setIsOpenFilter] = useState(false)
-    const jobsData = useSelector((state) => state.storage.jobsCache)
+    let jobsData = useSelector((state) => state.storage.jobsCache)
+    let searchedJobs = useSelector((state) => state.storage.searchedJobs)
     const dispatch = useDispatch()
+
+    if (searchedJobs) {
+        jobsData = searchedJobs
+    }
 
     function handleNavigateToDetail(id) {
         navigate(`/jobs/${id}`)
@@ -65,7 +70,7 @@ function Jobs() {
                 <Loading />
             )}
             {isOpenFilter ? (
-                <HomeFilter onClose={() => setIsOpenFilter(false)} />
+                <JobFilter onClose={() => setIsOpenFilter(false)} />
             ) : null}
         </div>
     )

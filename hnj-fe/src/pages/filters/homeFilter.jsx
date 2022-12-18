@@ -1,5 +1,4 @@
 import style from './style.module.scss'
-import { Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
     setPriceRange,
@@ -8,7 +7,7 @@ import {
     setCookingSection,
     setBalcony,
     setWashingMachine,
-} from './reducer'
+} from './homeFilterReducer'
 import RangeSlider from '../../components/RangeSlider/rangeSlider'
 import Button from '../../components/Buttons/button'
 import Spacer from '../../components/Utils/spacer'
@@ -20,7 +19,7 @@ import { bedOptions, toiletOptions } from './filterOptions'
 
 function HomeFilter({ onClose }) {
     const dispatch = useDispatch()
-    const state = useSelector((state) => state.filter)
+    const state = useSelector((state) => state.homeFilter)
 
     return (
         <div className={style.sideContainer}>
@@ -112,7 +111,8 @@ function HomeFilter({ onClose }) {
                 <Spacer space={10} />
                 <Text>Washing Machine</Text>
             </div>
-            <Spacer space={10} />
+            <Spacer space={60} />
+            <Button expanded>Apply Filter</Button>
         </div>
     )
 }
