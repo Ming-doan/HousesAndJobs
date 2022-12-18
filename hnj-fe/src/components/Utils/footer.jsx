@@ -11,19 +11,19 @@ function Footer() {
                 </Text>
                 <Text color="gray100">Contributors</Text>
                 <Text color="gray100" helper>
-                    - Trần Tiến Thành
+                    - Trần Tiến Thành `trantienthanh2306@gmail.com`
                 </Text>
                 <Text color="gray100" helper>
                     - Đoàn Quang Minh `quangminh57dng@gmail.com`
                 </Text>
                 <Text color="gray100" helper>
-                    - Phan Gia Huy
+                    - Phan Gia Huy `phanhuy30012003@gmail.com`
                 </Text>
                 <Text color="gray100" helper>
-                    - Đinh Ngọc Hà
+                    - Đinh Ngọc Hà `hadnds170325@fpt.edu.vn`
                 </Text>
                 <Text color="gray100" helper>
-                    - Nguyễn Vũ Gia Hân
+                    - Nguyễn Vũ Gia Hân `hannvgds170437@fpt.edu.vn`
                 </Text>
                 <Spacer space={20} />
                 <Text color="gray100">Copyright 2022 - The Solution Team</Text>
